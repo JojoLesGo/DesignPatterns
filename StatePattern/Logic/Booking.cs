@@ -16,36 +16,84 @@ namespace State_Design_Pattern.Logic
         public int BookingID { get; set; }
 
         private CancellationTokenSource cancelToken;
+
+        private bool isNew;
+        private bool isPending;
+        private bool isBooked;
        
         public Booking(MainWindow view)
         {
+            isNew = true;
             View = view;
+            BookingID = new Random().Next();
+            ShowState("New");
+            View.ShowEntryPage();
         }
 
         public void SubmitDetails(string attendee, int ticketCount)
         {
-           
+            if (isNew)
+            {
+                isNew = false;
+                isPending = true;
+
+                
+            }
         }
 
         public void Cancel()
         {
-           
+            if (isNew)
+            {
+                
+            }
+            else if (isPending)
+            {
+                cancelToken.Cancel();
+            }
+            else if (isBooked)
+            {
+                ShowState("Closed");
+                View.ShowStatusPage("Booking cancelled. Expect a refund.");
+                isBooked = false;
+            }
+            else
+            {
+                View.ShowError("Closed bookings cannot be canceled");
+            }
         }
 
         public void DatePassed()
         {
-
+            if (isNew)
+            {
+                
+                isNew = false;
+            }
+            else if (isBooked)
+            {
+                ShowState("Closed");
+                View.ShowStatusPage("We hope you enjoyed the event");
+                isBooked = false;
+            }
+            else
+            {
+                View.ShowError("Closed bookings cannot be canceled");
+            }
         }
 
         public void ProcessingComplete(Booking booking, ProcessingResult result)
         {
+            isPending = false;
             switch (result)
             {
-                case ProcessingResult.Sucess:
+                case ProcessingResult.Success:
+                    isBooked = true;
                     ShowState("Booked");
                     View.ShowStatusPage("Enjoy the Event");
                     break;
                 case ProcessingResult.Fail:
+                    isNew = true;
                     View.ShowProcessingError();
                     Attendee = string.Empty;
                     BookingID = new Random().Next();

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace State_Design_Pattern.Logic
 {
-    public enum ProcessingResult { Sucess, Fail, Cancel }
+    public enum ProcessingResult { Success, Fail, Cancel }
     public class StaticFunctions
     {
         public static async void ProcessBooking(BookingContext booking, Action<BookingContext, ProcessingResult> callback, CancellationTokenSource token)
@@ -23,7 +23,7 @@ namespace State_Design_Pattern.Logic
                 return;
             }
 
-            ProcessingResult result = new Random().Next(0, 2) == 0 ? ProcessingResult.Sucess : ProcessingResult.Fail;
+            ProcessingResult result = new Random().Next(0, 2) == 0 ? ProcessingResult.Success : ProcessingResult.Fail;
             callback(booking, result);
         }
         
@@ -43,7 +43,7 @@ namespace State_Design_Pattern.Logic
                 return;
             }
 
-            ProcessingResult result = new Random().Next(0, 2) == 0 ? ProcessingResult.Sucess : ProcessingResult.Fail;
+            ProcessingResult result = new Random().Next(0, 2) == 0 ? ProcessingResult.Success : ProcessingResult.Fail;
             callback(booking, result);
         }
     }
