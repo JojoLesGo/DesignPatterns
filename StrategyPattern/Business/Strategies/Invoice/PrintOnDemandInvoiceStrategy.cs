@@ -10,12 +10,10 @@ namespace StrategyPattern.Business.Strategies.Invoice
 
         public void Generate(Order order)
         {
-            using(var client = new HttpClient())
-            {
-                var content = JsonConvert.SerializeObject(order);
-                client.BaseAddress = new System.Uri("https:pluralsight.com");
-                client.PostAsync("/print-on-demand", new StringContent(content));
-            }
+            using var client = new HttpClient();
+            var content = JsonConvert.SerializeObject(order);
+            client.BaseAddress = new System.Uri("https:pluralsight.com");
+            client.PostAsync("/print-on-demand", new StringContent(content));
         }
     }
 }

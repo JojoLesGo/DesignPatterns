@@ -10,10 +10,8 @@ namespace StrategyPattern.Business.Strategies.Invoice
     {
         public override void Generate(Order order)
         {
-            using( var stream = new StreamWriter($"invoice_{Guid.NewGuid()}.txt")){
-                stream.Write(GenerateTextInvoice(order));
-                stream.Flush();
-            }
+            using var stream = new StreamWriter($"invoice_{Guid.NewGuid()}.txt"); stream.Write(GenerateTextInvoice(order));
+            stream.Flush();
         }
     }
 }
